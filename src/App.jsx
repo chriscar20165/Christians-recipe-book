@@ -154,8 +154,14 @@ function formatAmt(amount) {
 
 // ── API helpers ──────────────────────────────────────────────────────────────
 async function apiGet() {
-  const res = await fetch(`${SHEET_URL}?action=getAll`);
-  return res.json();
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), 5000);
+  try {
+    const res = await fetch(`${SHEET_URL}?action=getAll`, { signal: controller.signal });
+    return res.json();
+  } finally {
+    clearTimeout(timeout);
+  }
 }
 async function apiPost(body) {
   const res = await fetch(SHEET_URL, {
@@ -326,6 +332,31 @@ const GLOBAL_PRICE_DEFAULTS = {
   "white vinegar|cup": "0.20",
   "sugar|cup": "0.30",
   "salt (for pickling syrup)|tsp": "0.01",
+  // Other recipe estimates (UK £ per listed unit; editable in the app)
+  "pork shoulder|kilo": "7.50",
+  "garlic (whole head)|head": "0.50",
+  "banana ketchup|cup": "1.50",
+  "pineapple juice|cup": "0.30",
+  "kalamansi juice|cup": "1.20",
+  "sprite|cup": "0.20",
+  "ground pork|kilo": "6.50",
+  "medium carrots|piece": "0.15",
+  "big onion|piece": "0.25",
+  "spring onions|cup": "0.80",
+  "red bell pepper|cup": "0.50",
+  "mix salt & pepper powder|tbsp": "0.10",
+  "flour|cup": "0.10",
+  "cornstarch|cup": "0.20",
+  "large eggs|piece": "0.30",
+  "lumpia wrappers|piece": "0.01",
+  "tender pork belly (pre-cooked)|kilo": "8.00",
+  "large onion, sliced|piece": "0.30",
+  "garlic cloves, crushed|clove": "0.05",
+  "brown sugar|tbsp": "0.02",
+  "tausi / black bean paste (optional)|tbsp": "0.15",
+  "bay leaves|piece": "0.03",
+  "whole peppercorns|tsp": "0.06",
+  "pork broth (from instant pot)|cup": "0.20",
 };
 
 const GLOBAL_PRICES_KEY = "global-ingredient-prices";
@@ -718,6 +749,20 @@ export default function App() {
 
   // ── Load: try Google Sheets first, fall back to local ──
   useEffect(() => {
+    // Show the built-in/local recipes immediately; sync the Sheet in the background.
+    let initialRecipes = DEFAULT_RECIPES;
+    try {
+      const saved = window.localStorage.getItem("recipes-db");
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        if (Array.isArray(parsed) && parsed.length) {
+          const savedIds = new Set(parsed.map(r => r.id));
+          initialRecipes = [...parsed, ...DEFAULT_RECIPES.filter(r => !savedIds.has(r.id))];
+        }
+      }
+    } catch {}
+    setRecipes(initialRecipes);
+    setLoaded(true);
     (async () => {
       setSyncing(true);
       try {
@@ -759,7 +804,6 @@ export default function App() {
         showMsg("Sheets unavailable — using local storage", false);
       }
       setSyncing(false);
-      setLoaded(true);
     })();
   }, []);
 
