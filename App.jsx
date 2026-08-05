@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 
-const SHEET_URL = "https://script.google.com/macros/s/AKfycbyil-GbJ0rQIqx__GuxFy5H_ouDozK7_us3Nn1P7F5t9hXJtoHypyFZvLKlIshdLlT8/exec";
+const SHEET_URL = "https://script.google.com/macros/s/AKfycbw7l96mCpHhGgcv7xPV3U6R_q5MOudoM1CAoPeEzs1V60ywBebleJodDB-zp9Xahskq/exec";
 
 const COLORS = {
   bg: "#1C1410", card: "#2A1F17", cardHover: "#321F14",
@@ -9,7 +9,6 @@ const COLORS = {
   green: "#4CAF50", yellow: "#F5A623",
 };
 
-const REGISTRATION_STORAGE_KEY = "recipe-book-registration";
 
 const UNITS = ["kilo","g","lb","oz","cup","tbsp","tsp","ml","L","piece","head","clove","can","pack"];
 
@@ -151,64 +150,6 @@ function formatAmt(amount) {
   const rounded = Math.round(amount * 10) / 10;
   if (rounded === Math.floor(rounded)) return Math.floor(rounded).toString();
   return rounded.toFixed(1);
-}
-
-// ── First-use registration ──────────────────────────────────────────────────
-function RegistrationScreen({ onComplete }) {
-  const [name, setName] = useState("");
-  const [country, setCountry] = useState("");
-  const [pin, setPin] = useState("");
-  const [confirmPin, setConfirmPin] = useState("");
-  const [error, setError] = useState("");
-
-  const handleSubmit = () => {
-    const registration = { name: name.trim(), country: country.trim(), pin: pin.trim() };
-    if (!registration.name || !registration.country) {
-      setError("Please enter your name and country.");
-      return;
-    }
-    if (!/^\d{4}$/.test(registration.pin)) {
-      setError("Your PIN must be exactly 4 digits.");
-      return;
-    }
-    if (registration.pin !== confirmPin.trim()) {
-      setError("The PINs do not match.");
-      return;
-    }
-    try { window.localStorage.setItem(REGISTRATION_STORAGE_KEY, JSON.stringify(registration)); } catch {}
-    onComplete(registration);
-  };
-
-  return (
-    <div style={{ minHeight: "100vh", background: COLORS.bg, color: COLORS.cream, fontFamily: "'Trebuchet MS',sans-serif", display: "flex", alignItems: "center", justifyContent: "center", padding: 20, boxSizing: "border-box" }}>
-      <div style={{ width: "100%", maxWidth: 420, background: COLORS.card, border: `1px solid ${COLORS.border}`, borderRadius: 18, padding: 28, boxSizing: "border-box", boxShadow: "0 12px 40px rgba(0,0,0,0.35)" }}>
-        <div style={{ fontSize: 36, marginBottom: 10 }}>🍖</div>
-        <h1 style={{ color: COLORS.cream, fontFamily: "Georgia,serif", fontSize: 25, margin: "0 0 8px" }}>Welcome to Recipe Book</h1>
-        <p style={{ color: COLORS.muted, fontSize: 14, lineHeight: 1.5, margin: "0 0 24px" }}>Tell us your name and country to get started. This is saved only on this device.</p>
-        <div style={{ display: "grid", gap: 14 }}>
-          <label style={{ color: COLORS.muted, fontSize: 12, fontWeight: 600 }}>
-            NAME
-            <input autoFocus value={name} onChange={e => { setName(e.target.value); setError(""); }} placeholder="Your name" style={{ ...inp(), marginTop: 6 }} />
-          </label>
-          <label style={{ color: COLORS.muted, fontSize: 12, fontWeight: 600 }}>
-            COUNTRY
-            <input value={country} onChange={e => { setCountry(e.target.value); setError(""); }} onKeyDown={e => e.key === "Enter" && handleSubmit()} placeholder="e.g. United Kingdom" style={{ ...inp(), marginTop: 6 }} />
-          </label>
-          <label style={{ color: COLORS.muted, fontSize: 12, fontWeight: 600 }}>
-            CREATE A 4-DIGIT PIN
-            <input type="password" inputMode="numeric" maxLength={4} value={pin} onChange={e => { setPin(e.target.value.replace(/\D/g, "")); setError(""); }} placeholder="4 digits" style={{ ...inp({ letterSpacing: 5 }), marginTop: 6 }} />
-          </label>
-          <label style={{ color: COLORS.muted, fontSize: 12, fontWeight: 600 }}>
-            CONFIRM PIN
-            <input type="password" inputMode="numeric" maxLength={4} value={confirmPin} onChange={e => { setConfirmPin(e.target.value.replace(/\D/g, "")); setError(""); }} onKeyDown={e => e.key === "Enter" && handleSubmit()} placeholder="Repeat your PIN" style={{ ...inp({ letterSpacing: 5 }), marginTop: 6 }} />
-          </label>
-          {error && <p style={{ color: "#C05050", fontSize: 12, margin: 0 }}>{error}</p>}
-          <p style={{ color: COLORS.accentLight, background: COLORS.tag, borderRadius: 8, padding: "10px 12px", fontSize: 12, lineHeight: 1.45, margin: 0 }}>ℹ️ All measurements in this recipe book follow UK standards.</p>
-          <button onClick={handleSubmit} style={{ background: COLORS.accent, color: "#fff", border: "none", padding: 13, borderRadius: 10, fontSize: 15, fontWeight: 700, cursor: "pointer" }}>Continue</button>
-        </div>
-      </div>
-    </div>
-  );
 }
 
 // ── API helpers ──────────────────────────────────────────────────────────────
@@ -372,13 +313,28 @@ const GLOBAL_PRICE_DEFAULTS = {
   "black pepper|tsp": "0.075",
   "salt|tsp": "0.01",
   "vinegar|cup": "0.20",
+  // Atsarang Sayote starter prices (editable from the recipe cost section)
+  "medium chayote, peeled and julienned|piece": "0.85",
+  "medium carrots, julienned|piece": "0.15",
+  "large onion, thinly sliced|piece": "0.35",
+  "garlic cloves, thinly sliced|clove": "0.05",
+  "ginger, thumb-sized and julienned|piece": "0.20",
+  "red bell pepper, thinly sliced|piece": "0.80",
+  "raisins (optional)|cup": "1.20",
+  "whole peppercorns|tbsp": "0.175",
+  "salt (for drawing out moisture)|cup": "0.04",
+  "white vinegar|cup": "0.20",
+  "sugar|cup": "0.30",
+  "salt (for pickling syrup)|tsp": "0.01",
 };
 
 const GLOBAL_PRICES_KEY = "global-ingredient-prices";
 
 async function loadGlobalPrices() {
   try {
-    const res = await window.storage.get(GLOBAL_PRICES_KEY);
+    const res = window.storage?.get
+      ? await window.storage.get(GLOBAL_PRICES_KEY)
+      : { value: window.localStorage.getItem(GLOBAL_PRICES_KEY) };
     const saved = res?.value ? JSON.parse(res.value) : {};
     // Merge: defaults fill gaps, saved values override
     return { ...GLOBAL_PRICE_DEFAULTS, ...saved };
@@ -388,7 +344,11 @@ async function loadGlobalPrices() {
 }
 
 async function saveGlobalPrices(prices) {
-  try { await window.storage.set(GLOBAL_PRICES_KEY, JSON.stringify(prices)); } catch {}
+  try {
+    const serialized = JSON.stringify(prices);
+    if (window.storage?.set) await window.storage.set(GLOBAL_PRICES_KEY, serialized);
+    else window.localStorage.setItem(GLOBAL_PRICES_KEY, serialized);
+  } catch {}
 }
 
 function priceKey(name, unit) {
@@ -532,7 +492,7 @@ function CostingSection({ recipe, scaledIngredients }) {
 }
 
 // ── RecipeView ───────────────────────────────────────────────────────────────
-function RecipeView({ recipe, onClose, onDelete, onEdit, onFav, saving, pin }) {
+function RecipeView({ recipe, onClose, onDelete, onEdit, onFav, saving }) {
   const mainIng = recipe.ingredients.find(i => i.isMain) || recipe.ingredients[0];
   const [sliderValue, setSliderValue] = useState(mainIng?.amount || 1);
   // unitOverrides: { ingredientId: chosenUnit }
@@ -541,7 +501,7 @@ function RecipeView({ recipe, onClose, onDelete, onEdit, onFav, saving, pin }) {
   const [showPwdModal, setShowPwdModal] = useState(false);
   const [pwdInput, setPwdInput] = useState("");
   const [pwdError, setPwdError] = useState(false);
-  const [pwdAction, setPwdAction] = useState(null); // "edit" | "delete"
+  const [pwdAction, setPwdAction] = useState(null);
 
   const requestAuth = (action) => {
     setPwdAction(action);
@@ -551,7 +511,7 @@ function RecipeView({ recipe, onClose, onDelete, onEdit, onFav, saving, pin }) {
   };
 
   const handlePwdSubmit = () => {
-    if (pwdInput === pin) {
+    if (pwdInput === "20165") {
       setShowPwdModal(false);
       if (pwdAction === "edit") onEdit();
       if (pwdAction === "delete") onDelete(recipe.id);
@@ -560,7 +520,6 @@ function RecipeView({ recipe, onClose, onDelete, onEdit, onFav, saving, pin }) {
       setPwdInput("");
     }
   };
-
   const ratio = sliderValue / (mainIng?.amount || 1);
 
   const maxSlider = (mainIng?.amount || 1) * 5;
@@ -719,25 +678,13 @@ function RecipeView({ recipe, onClose, onDelete, onEdit, onFav, saving, pin }) {
       {/* Costing Section */}
       <CostingSection recipe={recipe} scaledIngredients={scaledIngredients} />
 
-      {/* Password Modal */}
       {showPwdModal && (
         <div style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.75)", display: "flex", alignItems: "center", justifyContent: "center", zIndex: 100 }}>
           <div style={{ background: COLORS.card, border: `1px solid ${COLORS.border}`, borderRadius: 16, padding: 28, width: 300, boxShadow: "0 8px 32px rgba(0,0,0,0.5)" }}>
-            <h3 style={{ color: COLORS.cream, fontFamily: "Georgia,serif", fontSize: 18, margin: "0 0 6px" }}>🔒 Enter Password</h3>
-            <p style={{ color: COLORS.muted, fontSize: 13, margin: "0 0 18px" }}>
-              {pwdAction === "delete" ? "Password required to delete this recipe." : "Password required to edit this recipe."}
-            </p>
-            <input
-              type="password"
-              value={pwdInput}
-              onChange={e => { setPwdInput(e.target.value); setPwdError(false); }}
-              onKeyDown={e => e.key === "Enter" && handlePwdSubmit()}
-              placeholder="Enter password"
-              autoFocus
-              style={{ background: "#1C1410", border: `1px solid ${pwdError ? "#C05050" : COLORS.border}`, color: COLORS.cream, borderRadius: 8, padding: "10px 12px", fontSize: 14, width: "100%", boxSizing: "border-box", outline: "none", marginBottom: 8 }}
-            />
-            {pwdError && <p style={{ color: "#C05050", fontSize: 12, margin: "0 0 12px" }}>Incorrect password. Try again.</p>}
-            {!pwdError && <div style={{ height: 12 }} />}
+            <h3 style={{ color: COLORS.cream, fontFamily: "Georgia,serif", fontSize: 18, margin: "0 0 6px" }}>🔒 Owner password</h3>
+            <p style={{ color: COLORS.muted, fontSize: 13, margin: "0 0 18px" }}>Enter the password to {pwdAction === "delete" ? "delete" : "edit"} this recipe.</p>
+            <input type="password" value={pwdInput} onChange={e => { setPwdInput(e.target.value); setPwdError(false); }} onKeyDown={e => e.key === "Enter" && handlePwdSubmit()} placeholder="Enter password" autoFocus style={{ background: "#1C1410", border: `1px solid ${pwdError ? "#C05050" : COLORS.border}`, color: COLORS.cream, borderRadius: 8, padding: "10px 12px", fontSize: 14, width: "100%", boxSizing: "border-box", outline: "none", marginBottom: 8 }} />
+            {pwdError && <p style={{ color: "#C05050", fontSize: 12, margin: "0 0 12px" }}>Incorrect password.</p>}
             <div style={{ display: "flex", gap: 8 }}>
               <button onClick={() => setShowPwdModal(false)} style={{ flex: 1, background: "none", border: `1px solid ${COLORS.border}`, color: COLORS.muted, padding: "10px", borderRadius: 8, cursor: "pointer", fontSize: 13 }}>Cancel</button>
               <button onClick={handlePwdSubmit} style={{ flex: 1, background: COLORS.accent, border: "none", color: "#fff", padding: "10px", borderRadius: 8, cursor: "pointer", fontSize: 13, fontWeight: 700 }}>Confirm</button>
@@ -745,14 +692,13 @@ function RecipeView({ recipe, onClose, onDelete, onEdit, onFav, saving, pin }) {
           </div>
         </div>
       )}
+
     </div>
   );
 }
 
 // ── Main App ─────────────────────────────────────────────────────────────────
 export default function App() {
-  const [registration, setRegistration] = useState(null);
-  const [registrationChecked, setRegistrationChecked] = useState(false);
   const [recipes, setRecipes]   = useState([]);
   const [view, setView]         = useState("list"); // list | recipe | add | edit
   const [selected, setSelected] = useState(null);
@@ -764,19 +710,6 @@ export default function App() {
   const [syncMsg, setSyncMsg]   = useState("");
   const [sheetOk, setSheetOk]   = useState(null); // null=unknown, true, false
 
-  // Registration is deliberately local to this browser/device.
-  useEffect(() => {
-    try {
-      const saved = window.localStorage.getItem(REGISTRATION_STORAGE_KEY);
-      if (saved) {
-        const parsed = JSON.parse(saved);
-        if (parsed?.name && parsed?.country && /^\d{4}$/.test(parsed?.pin || "")) setRegistration(parsed);
-      }
-    } catch {}
-    setRegistrationChecked(true);
-  }, []);
-
-
   const showMsg = (msg, ok = true) => {
     setSyncMsg(msg);
     setTimeout(() => setSyncMsg(""), 3000);
@@ -785,7 +718,6 @@ export default function App() {
 
   // ── Load: try Google Sheets first, fall back to local ──
   useEffect(() => {
-    if (!registrationChecked || !registration) return;
     (async () => {
       setSyncing(true);
       try {
@@ -829,7 +761,7 @@ export default function App() {
       setSyncing(false);
       setLoaded(true);
     })();
-  }, [registrationChecked, registration]);
+  }, []);
 
   // ── Local backup whenever recipes change ──
   useEffect(() => {
@@ -893,20 +825,6 @@ export default function App() {
 
   const favCount = recipes.filter(r => r.favourite).length;
 
-  const openRecipe = (recipe) => {
-    const entered = window.prompt("Enter your 4-digit PIN to open this recipe:");
-    if (entered === null) return;
-    if (entered.trim() !== registration.pin) {
-      window.alert("Incorrect PIN.");
-      return;
-    }
-    setSelected(recipe);
-    setView("recipe");
-  };
-
-  if (!registrationChecked) return null;
-  if (!registration) return <RegistrationScreen onComplete={setRegistration} />;
-
   return (
     <div style={{ minHeight: "100vh", background: COLORS.bg, color: COLORS.cream, fontFamily: "'Trebuchet MS',sans-serif", paddingBottom: 60 }}>
 
@@ -916,7 +834,7 @@ export default function App() {
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
             <div>
               <h1 style={{ margin: 0, fontFamily: "Georgia,serif", fontSize: 21, color: COLORS.cream }}>🍖 Recipe Book</h1>
-              <div style={{ color: COLORS.accentLight, fontSize: 11, marginTop: 3 }}>UK measurements · Welcome, {registration.name}</div>
+              <div style={{ color: COLORS.accentLight, fontSize: 11, marginTop: 3 }}>UK measurements</div>
               <div style={{ display: "flex", alignItems: "center", gap: 8, marginTop: 3 }}>
                 <span style={{ color: COLORS.muted, fontSize: 12 }}>{recipes.length} recipe{recipes.length !== 1 ? "s" : ""}</span>
                 {syncing && <span style={{ color: COLORS.yellow, fontSize: 11 }}>⟳ Syncing…</span>}
@@ -965,7 +883,7 @@ export default function App() {
             <div style={{ display: "grid", gap: 12 }}>
               {filtered.map(r => (
                 <RecipeCard key={r.id} recipe={r}
-                  onClick={openRecipe}
+                  onClick={r => { setSelected(r); setView("recipe"); }}
                   onFav={handleFav} />
               ))}
             </div>
@@ -978,7 +896,6 @@ export default function App() {
             onEdit={() => setView("edit")}
             onFav={handleFav}
             saving={saving}
-            pin={registration.pin}
           />
         ) : view === "add" ? (
           <RecipeForm title="Add New Recipe" onSave={handleAdd} onCancel={() => setView("list")} saving={saving} />
