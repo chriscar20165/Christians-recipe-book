@@ -386,6 +386,18 @@ function priceKey(name, unit) {
   return `${name.toLowerCase().trim()}|${unit}`;
 }
 
+// Fallback estimates ensure recipes added through Google Sheets still show a cost.
+const ESTIMATED_UNIT_PRICES = {
+  kilo: 6.00, g: 0.01, lb: 3.00, oz: 0.40,
+  cup: 0.30, tbsp: 0.05, tsp: 0.02, ml: 0.01, L: 1.00,
+  piece: 0.25, head: 0.50, clove: 0.05, can: 1.00, pack: 1.00,
+};
+
+function getIngredientPrice(globalPrices, name, unit) {
+  const specific = parseFloat(globalPrices[priceKey(name, unit)]);
+  return Number.isFinite(specific) && specific > 0 ? specific : (ESTIMATED_UNIT_PRICES[unit] || 0.25);
+}
+
 // ── CostingSection ───────────────────────────────────────────────────────────
 function CostingSection({ recipe, scaledIngredients }) {
   const [globalPrices, setGlobalPrices] = useState({});
@@ -406,7 +418,7 @@ function CostingSection({ recipe, scaledIngredients }) {
     const d = {};
     scaledIngredients.forEach(ing => {
       const key = priceKey(ing.name, ing.unit);
-      d[ing.id] = globalPrices[key] || "";
+      d[ing.id] = globalPrices[key] || getIngredientPrice(globalPrices, ing.name, ing.unit).toFixed(2);
     });
     setDraft(d);
     setEditing(true);
@@ -427,8 +439,7 @@ function CostingSection({ recipe, scaledIngredients }) {
 
   // Calculate totals using scaled amounts + global price lookup
   const rows = scaledIngredients.map(ing => {
-    const key = priceKey(ing.name, ing.unit);
-    const unitCost = parseFloat(globalPrices[key] || 0);
+    const unitCost = getIngredientPrice(globalPrices, ing.name, ing.unit);
     const total = unitCost > 0 ? unitCost * ing.scaledAmount : 0;
     return { ...ing, unitCost, total };
   });
@@ -444,7 +455,7 @@ function CostingSection({ recipe, scaledIngredients }) {
         <div>
           <h4 style={{ color: COLORS.cream, fontSize: 13, fontWeight: 700, letterSpacing: 1, margin: 0 }}>💷 COST ESTIMATE</h4>
           <p style={{ color: COLORS.muted, fontSize: 11, margin: "3px 0 0" }}>
-            {costedCount}/{scaledIngredients.length} priced · shared across all recipes · scales with slider
+            {costedCount}/{scaledIngredients.length} priced · estimates used where needed · scales with slider
           </p>
         </div>
         {!editing ? (
