@@ -103,6 +103,28 @@ const DEFAULT_RECIPES = [
     ],
     steps: "1. SAUT\u00C9 BASE: Heat a large pan or wok. Saut\u00E9 the garlic until lightly golden. Add onions and cook until softened.\n\n2. BROWN THE PORK: Add the tender pork belly and allow it to brown slightly on all sides.\n\n3. ADD FLAVOUR: Add soy sauce, tausi, bay leaves, and whole peppercorns. Pour in 1 cup of the reserved pork broth.\n\n4. FIRST SIMMER: Simmer for 10 minutes.\n\n5. ADD VINEGAR: Pour in the vinegar and do not stir for 2-3 minutes. This prevents the vinegar from turning bitter.\n\n6. SWEETEN AND REDUCE: Add brown sugar. Simmer uncovered for 15-20 minutes until the sauce becomes thick, glossy, and coats the pork.\n\n7. TASTE ADJUSTMENTS: For a more Bisaya flavour - add another tbsp of brown sugar. For a darker richer humba - add 1 tbsp oyster sauce. For a slight kick - add 2-3 bird's eye chillies. If sauce is too thick - add a splash more pork broth.",
   },
+  {
+    id: "5", name: "Cebu-Style Lechon Belly", category: "Oven-Roasted", favourite: false,
+    mainIngredient: "boneless pork belly, skin on", mainIngredientUnit: "kilo", baseAmount: 4.5, servings: 15,
+    ingredients: [
+      { id: "l1", name: "boneless pork belly, skin on", amount: 4.5, unit: "kilo", isMain: true },
+      { id: "l2", name: "coarse sea salt", amount: 3, unit: "tbsp", isMain: false },
+      { id: "l3", name: "freshly ground black pepper", amount: 2, unit: "tsp", isMain: false },
+      { id: "l4", name: "MSG / Ajinomoto (optional)", amount: 1, unit: "tsp", isMain: false },
+      { id: "l5", name: "large white onions, thinly sliced", amount: 2, unit: "piece", isMain: false },
+      { id: "l6", name: "garlic bulbs, thinly sliced", amount: 2, unit: "head", isMain: false },
+      { id: "l7", name: "lemongrass stalks, bruised & cut into 10 cm lengths", amount: 5, unit: "piece", isMain: false },
+      { id: "l8", name: "dried bay leaves", amount: 8, unit: "piece", isMain: false },
+      { id: "l9", name: "whole black peppercorns, lightly crushed", amount: 2, unit: "tbsp", isMain: false },
+      { id: "l10", name: "white vinegar (for skin)", amount: 2, unit: "tbsp", isMain: false },
+      { id: "l11", name: "neutral cooking oil or melted pork fat (for skin)", amount: 1, unit: "tbsp", isMain: false },
+      { id: "l12", name: "cane vinegar or white vinegar (dipping sauce)", amount: 0.5, unit: "cup", isMain: false },
+      { id: "l13", name: "soy sauce (dipping sauce)", amount: 2, unit: "tbsp", isMain: false },
+      { id: "l14", name: "garlic cloves, minced (dipping sauce)", amount: 2, unit: "clove", isMain: false },
+      { id: "l15", name: "bird's eye chillies, chopped (dipping sauce)", amount: 2, unit: "piece", isMain: false },
+    ],
+    steps: "1. PREPARE: Lay pork belly skin-side down. Pat dry. Lightly score the meat side in a crosshatch (do not cut through skin).\n\n2. SEASON: Rub the meat side with sea salt, black pepper, and MSG. Massage in well.\n\n3. STUFF: Spread sliced onions, garlic, lemongrass, bay leaves, and crushed peppercorns over the meat. Leave a 2-3 cm border around the edges.\n\n4. ROLL: Roll tightly from one long edge into a log, compressing firmly. Tie with butcher's twine every 2-3 cm.\n\n5. DRY OVERNIGHT: Place on a wire rack over a tray. Leave uncovered in the fridge for 12-24 hours to dry the skin.\n\n6. BEFORE ROASTING: Remove from fridge 45-60 min before cooking. Wipe skin with white vinegar, pat completely dry, then brush with a very thin layer of oil or pork fat. Do not salt the skin.\n\n7. FIRST ROAST: Preheat oven to 180C. Place on a wire/V-rack in a roasting tray. Roast for 3.5-4 hours, turning onto the next side every 30-40 minutes. Rotate tray if oven has hot spots. Dab away excess fat and season as needed.\n\n8. FINAL BLAST: Increase to 210-215C. Roast a further 15-20 minutes until skin is deep golden brown and crisp. Do not exceed 220C.\n\n9. REST: Transfer to a chopping board. Leave uncovered 20-30 minutes. Do not cover - steam will soften the skin.\n\n10. DIPPING SAUCE: Mix cane vinegar, soy sauce, minced garlic, chillies, and black pepper. Let sit 15 minutes before serving.",
+  },
 ];
 
 function formatAmt(amount) {
