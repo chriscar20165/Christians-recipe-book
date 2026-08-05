@@ -125,6 +125,25 @@ const DEFAULT_RECIPES = [
     ],
     steps: "1. PREPARE: Lay pork belly skin-side down. Pat dry. Lightly score the meat side in a crosshatch (do not cut through skin).\n\n2. SEASON: Rub the meat side with sea salt, black pepper, and MSG. Massage in well.\n\n3. STUFF: Spread sliced onions, garlic, lemongrass, bay leaves, and crushed peppercorns over the meat. Leave a 2-3 cm border around the edges.\n\n4. ROLL: Roll tightly from one long edge into a log, compressing firmly. Tie with butcher's twine every 2-3 cm.\n\n5. DRY OVERNIGHT: Place on a wire rack over a tray. Leave uncovered in the fridge for 12-24 hours to dry the skin.\n\n6. BEFORE ROASTING: Remove from fridge 45-60 min before cooking. Wipe skin with white vinegar, pat completely dry, then brush with a very thin layer of oil or pork fat. Do not salt the skin.\n\n7. FIRST ROAST: Preheat oven to 180C. Place on a wire/V-rack in a roasting tray. Roast for 3.5-4 hours, turning onto the next side every 30-40 minutes. Rotate tray if oven has hot spots. Dab away excess fat and season as needed.\n\n8. FINAL BLAST: Increase to 210-215C. Roast a further 15-20 minutes until skin is deep golden brown and crisp. Do not exceed 220C.\n\n9. REST: Transfer to a chopping board. Leave uncovered 20-30 minutes. Do not cover - steam will soften the skin.\n\n10. DIPPING SAUCE: Mix cane vinegar, soy sauce, minced garlic, chillies, and black pepper. Let sit 15 minutes before serving.",
   },
+  {
+    id: "6", name: "Atsarang Sayote (Chayote Pickles)", category: "Pickled", favourite: false,
+    mainIngredient: "chayote", mainIngredientUnit: "piece", baseAmount: 4, servings: 8,
+    ingredients: [
+      { id: "a1", name: "medium chayote, peeled and julienned", amount: 4, unit: "piece", isMain: true },
+      { id: "a2", name: "medium carrots, julienned", amount: 2, unit: "piece", isMain: false },
+      { id: "a3", name: "large onion, thinly sliced", amount: 1, unit: "piece", isMain: false },
+      { id: "a4", name: "garlic cloves, thinly sliced", amount: 9, unit: "clove", isMain: false },
+      { id: "a5", name: "ginger, thumb-sized and julienned", amount: 1, unit: "piece", isMain: false },
+      { id: "a6", name: "red bell pepper, thinly sliced", amount: 0.5, unit: "piece", isMain: false },
+      { id: "a7", name: "raisins (optional)", amount: 0.5, unit: "cup", isMain: false },
+      { id: "a8", name: "whole peppercorns", amount: 2, unit: "tbsp", isMain: false },
+      { id: "a9", name: "salt (for drawing out moisture)", amount: 0.25, unit: "cup", isMain: false },
+      { id: "a10", name: "white vinegar", amount: 2, unit: "cup", isMain: false },
+      { id: "a11", name: "sugar", amount: 1, unit: "cup", isMain: false },
+      { id: "a12", name: "salt (for pickling syrup)", amount: 1.5, unit: "tsp", isMain: false },
+    ],
+    steps: "1. Peel and julienne the chayote.\n\n2. Toss with ¼ cup salt and leave for 1 hour (overnight is unnecessary because chayote contains less latex than papaya).\n\n3. Rinse thoroughly.\n\n4. Squeeze out as much water as possible using a clean tea towel or cheesecloth.\n\n5. Combine the chayote with the carrots, onion, garlic, ginger, bell pepper, raisins and peppercorns.\n\n6. Bring the vinegar to a boil.\n\n7. Stir in the sugar and 1½ tsp salt until dissolved.\n\n8. Allow the syrup to cool until warm.\n\n9. Pack the vegetables tightly into sterilised jars.\n\n10. Pour over the syrup until everything is submerged.\n\n11. Refrigerate for 3–5 days before serving (it’s even better after a week).",
+  },
 ];
 
 function formatAmt(amount) {
