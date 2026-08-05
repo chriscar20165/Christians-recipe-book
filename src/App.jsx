@@ -619,8 +619,8 @@ function RecipeView({ recipe, onClose, onDelete, onEdit, onFav, saving }) {
   const ratio = sliderValue / (mainIng?.amount || 1);
 
   const maxSlider = (mainIng?.amount || 1) * 5;
-  const minSlider = recipe.id === "2" ? 0.5 : Math.max(0.1, (mainIng?.amount || 1) * 0.25);
-  const step      = 0.1;
+  const minSlider = recipe.id === "8" ? 5 : recipe.id === "2" ? 0.5 : Math.max(0.1, (mainIng?.amount || 1) * 0.25);
+  const step      = recipe.id === "8" ? 1 : 0.1;
 
   const scaledIngredients = recipe.ingredients.map(ing => {
     const rawAmount = ing.isMain ? sliderValue : ing.amount * ratio;
