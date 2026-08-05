@@ -163,6 +163,20 @@ const DEFAULT_RECIPES = [
     ],
     steps: "1. SAUTÉ AROMATICS: Set the Instant Pot to Sauté. Add the oil, then cook the onion, garlic, and ginger until the onion softens.\n\n2. BROWN THE CHICKEN: Add the chicken pieces and brown on both sides. Press Cancel.\n\n3. ADD LIQUID: Pour in the coconut milk and water or chicken stock. Scrape the bottom well to prevent a burn warning. Add the chili flakes, lemongrass, and papaya.\n\n4. PRESSURE COOK: Secure the lid and set the valve to Sealing. Cook on High Pressure for 10 minutes. Allow a 10-minute natural release, then carefully quick-release the remaining pressure.\n\n5. SEASON: Open the lid. Stir in the ground black pepper and fish sauce. Taste and adjust the chili or fish sauce.\n\n6. FINISH WITH GREENS: Add the hot pepper leaves or malunggay. Set to Sauté and cook for 2 minutes, just until the leaves soften. Serve hot with rice.",
   },
+  {
+    id: "8", name: "Leche Flan", category: "Steamed Dessert", favourite: false,
+    mainIngredient: "small foil trays (12 × 14.5 × 4.8 cm)", mainIngredientUnit: "piece", baseAmount: 5, servings: 5,
+    ingredients: [
+      { id: "f1", name: "small foil trays (12 × 14.5 × 4.8 cm)", amount: 5, unit: "piece", isMain: true },
+      { id: "f2", name: "whole eggs", amount: 4, unit: "piece", isMain: false },
+      { id: "f3", name: "egg yolks", amount: 12, unit: "piece", isMain: false },
+      { id: "f4", name: "condensed milk", amount: 2, unit: "can", isMain: false },
+      { id: "f5", name: "evaporated milk", amount: 1, unit: "can", isMain: false },
+      { id: "f6", name: "white sugar", amount: 1, unit: "cup", isMain: false },
+      { id: "f7", name: "water", amount: 0.33, unit: "cup", isMain: false },
+    ],
+    steps: "1. MIX THE EGGS: Add 4 whole eggs and 12 egg yolks to a mixing bowl. Mix slowly and gently to avoid creating too many bubbles.\n\n2. ADD THE MILK: Slowly add the condensed milk while whisking gently. Slowly add the evaporated milk and whisk until just combined.\n\n3. MAKE THE CARAMEL: Place the sugar in the centre of a pan over medium heat. Add the water around the sides of the pan. Do not stir until the sugar around the edges starts to brown. Gently mix the edges into the centre, then stir the middle once it begins to brown. Cook until evenly golden.\n\n4. FILL THE TRAYS: Divide the caramel among 5 small foil trays. Pour the flan mixture over the caramel. Cover each tray tightly with foil.\n\n5. STEAM: Bring about 1 inch of water to a gentle boil over medium heat. Arrange the covered trays in the steamer, cover, and steam for approximately 30 minutes. Check that the centre is firm.\n\n6. CHILL AND SERVE: Cool, then refrigerate until fully set. Run a knife around the edge and invert onto a plate to serve.",
+  },
 ];
 
 function formatAmt(amount) {
@@ -390,6 +404,13 @@ const GLOBAL_PRICE_DEFAULTS = {
   "ground black pepper|tsp": "0.075",
   "cooking oil|tbsp": "0.05",
   "water or chicken stock|cup": "0.10",
+  "small foil trays (12 × 14.5 × 4.8 cm)|piece": "0.25",
+  "whole eggs|piece": "0.30",
+  "egg yolks|piece": "0.30",
+  "condensed milk|can": "1.50",
+  "evaporated milk|can": "1.20",
+  "white sugar|cup": "0.30",
+  "water|cup": "0.01",
 };
 
 const GLOBAL_PRICES_KEY = "global-ingredient-prices";
