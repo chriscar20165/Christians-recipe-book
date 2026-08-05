@@ -143,6 +143,26 @@ const DEFAULT_RECIPES = [
     ],
     steps: "1. Peel and julienne the chayote.\n\n2. Toss with ¼ cup salt and leave for 1 hour (overnight is unnecessary because chayote contains less latex than papaya).\n\n3. Rinse thoroughly.\n\n4. Squeeze out as much water as possible using a clean tea towel or cheesecloth.\n\n5. Combine the chayote with the carrots, onion, garlic, ginger, bell pepper, raisins and peppercorns.\n\n6. Bring the vinegar to a boil.\n\n7. Stir in the sugar and 1½ tsp salt until dissolved.\n\n8. Allow the syrup to cool until warm.\n\n9. Pack the vegetables tightly into sterilised jars.\n\n10. Pour over the syrup until everything is submerged.\n\n11. Refrigerate for 3–5 days before serving (it’s even better after a week).",
   },
+  {
+    id: "7", name: "Instant Pot Chicken Halang-halang", category: "Stewed", favourite: false,
+    mainIngredient: "chicken, cut into serving pieces", mainIngredientUnit: "kilo", baseAmount: 1, servings: 4,
+    ingredients: [
+      { id: "c1", name: "chicken, cut into serving pieces", amount: 1, unit: "kilo", isMain: true },
+      { id: "c2", name: "coconut milk", amount: 2, unit: "cup", isMain: false },
+      { id: "c3", name: "medium yellow onion, diced", amount: 1, unit: "piece", isMain: false },
+      { id: "c4", name: "minced garlic", amount: 1, unit: "tsp", isMain: false },
+      { id: "c5", name: "ginger, julienned", amount: 1, unit: "piece", isMain: false },
+      { id: "c6", name: "chili flakes", amount: 2, unit: "tsp", isMain: false },
+      { id: "c7", name: "lemongrass blades", amount: 7, unit: "piece", isMain: false },
+      { id: "c8", name: "small green papaya, wedged", amount: 1, unit: "piece", isMain: false },
+      { id: "c9", name: "hot pepper leaves or malunggay", amount: 0.75, unit: "cup", isMain: false },
+      { id: "c10", name: "fish sauce", amount: 2, unit: "tbsp", isMain: false },
+      { id: "c11", name: "ground black pepper", amount: 0.25, unit: "tsp", isMain: false },
+      { id: "c12", name: "cooking oil", amount: 3, unit: "tbsp", isMain: false },
+      { id: "c13", name: "water or chicken stock", amount: 1, unit: "cup", isMain: false },
+    ],
+    steps: "1. SAUTÉ AROMATICS: Set the Instant Pot to Sauté. Add the oil, then cook the onion, garlic, and ginger until the onion softens.\n\n2. BROWN THE CHICKEN: Add the chicken pieces and brown on both sides. Press Cancel.\n\n3. ADD LIQUID: Pour in the coconut milk and water or chicken stock. Scrape the bottom well to prevent a burn warning. Add the chili flakes, lemongrass, and papaya.\n\n4. PRESSURE COOK: Secure the lid and set the valve to Sealing. Cook on High Pressure for 10 minutes. Allow a 10-minute natural release, then carefully quick-release the remaining pressure.\n\n5. SEASON: Open the lid. Stir in the ground black pepper and fish sauce. Taste and adjust the chili or fish sauce.\n\n6. FINISH WITH GREENS: Add the hot pepper leaves or malunggay. Set to Sauté and cook for 2 minutes, just until the leaves soften. Serve hot with rice.",
+  },
 ];
 
 function formatAmt(amount) {
@@ -357,6 +377,19 @@ const GLOBAL_PRICE_DEFAULTS = {
   "bay leaves|piece": "0.03",
   "whole peppercorns|tsp": "0.06",
   "pork broth (from instant pot)|cup": "0.20",
+  "chicken, cut into serving pieces|kilo": "6.00",
+  "coconut milk|cup": "0.60",
+  "medium yellow onion, diced|piece": "0.30",
+  "minced garlic|tsp": "0.03",
+  "ginger, julienned|piece": "0.20",
+  "chili flakes|tsp": "0.08",
+  "lemongrass blades|piece": "0.20",
+  "small green papaya, wedged|piece": "1.50",
+  "hot pepper leaves or malunggay|cup": "0.80",
+  "fish sauce|tbsp": "0.06",
+  "ground black pepper|tsp": "0.075",
+  "cooking oil|tbsp": "0.05",
+  "water or chicken stock|cup": "0.10",
 };
 
 const GLOBAL_PRICES_KEY = "global-ingredient-prices";
