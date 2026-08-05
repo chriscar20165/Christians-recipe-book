@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 
-const SHEET_URL = "https://script.google.com/macros/s/AKfycbyil-GbJ0rQIqx__GuxFy5H_ouDozK7_us3Nn1P7F5t9hXJtoHypyFZvLKlIshdLlT8/exec";
+const SHEET_URL = "https://script.google.com/macros/s/AKfycbw7l96mCpHhGgcv7xPV3U6R_q5MOudoM1CAoPeEzs1V60ywBebleJodDB-zp9Xahskq/exec";
 
 const COLORS = {
   bg: "#1C1410", card: "#2A1F17", cardHover: "#321F14",
@@ -125,6 +125,25 @@ const DEFAULT_RECIPES = [
     ],
     steps: "1. PREPARE: Lay pork belly skin-side down. Pat dry. Lightly score the meat side in a crosshatch (do not cut through skin).\n\n2. SEASON: Rub the meat side with sea salt, black pepper, and MSG. Massage in well.\n\n3. STUFF: Spread sliced onions, garlic, lemongrass, bay leaves, and crushed peppercorns over the meat. Leave a 2-3 cm border around the edges.\n\n4. ROLL: Roll tightly from one long edge into a log, compressing firmly. Tie with butcher's twine every 2-3 cm.\n\n5. DRY OVERNIGHT: Place on a wire rack over a tray. Leave uncovered in the fridge for 12-24 hours to dry the skin.\n\n6. BEFORE ROASTING: Remove from fridge 45-60 min before cooking. Wipe skin with white vinegar, pat completely dry, then brush with a very thin layer of oil or pork fat. Do not salt the skin.\n\n7. FIRST ROAST: Preheat oven to 180C. Place on a wire/V-rack in a roasting tray. Roast for 3.5-4 hours, turning onto the next side every 30-40 minutes. Rotate tray if oven has hot spots. Dab away excess fat and season as needed.\n\n8. FINAL BLAST: Increase to 210-215C. Roast a further 15-20 minutes until skin is deep golden brown and crisp. Do not exceed 220C.\n\n9. REST: Transfer to a chopping board. Leave uncovered 20-30 minutes. Do not cover - steam will soften the skin.\n\n10. DIPPING SAUCE: Mix cane vinegar, soy sauce, minced garlic, chillies, and black pepper. Let sit 15 minutes before serving.",
   },
+  {
+    id: "6", name: "Atsarang Sayote (Chayote Pickles)", category: "Pickled", favourite: false,
+    mainIngredient: "chayote", mainIngredientUnit: "piece", baseAmount: 4, servings: 8,
+    ingredients: [
+      { id: "a1", name: "medium chayote, peeled and julienned", amount: 4, unit: "piece", isMain: true },
+      { id: "a2", name: "medium carrots, julienned", amount: 2, unit: "piece", isMain: false },
+      { id: "a3", name: "large onion, thinly sliced", amount: 1, unit: "piece", isMain: false },
+      { id: "a4", name: "garlic cloves, thinly sliced", amount: 9, unit: "clove", isMain: false },
+      { id: "a5", name: "ginger, thumb-sized and julienned", amount: 1, unit: "piece", isMain: false },
+      { id: "a6", name: "red bell pepper, thinly sliced", amount: 0.5, unit: "piece", isMain: false },
+      { id: "a7", name: "raisins (optional)", amount: 0.5, unit: "cup", isMain: false },
+      { id: "a8", name: "whole peppercorns", amount: 2, unit: "tbsp", isMain: false },
+      { id: "a9", name: "salt (for drawing out moisture)", amount: 0.25, unit: "cup", isMain: false },
+      { id: "a10", name: "white vinegar", amount: 2, unit: "cup", isMain: false },
+      { id: "a11", name: "sugar", amount: 1, unit: "cup", isMain: false },
+      { id: "a12", name: "salt (for pickling syrup)", amount: 1.5, unit: "tsp", isMain: false },
+    ],
+    steps: "1. Peel and julienne the chayote.\n\n2. Toss with ¼ cup salt and leave for 1 hour (overnight is unnecessary because chayote contains less latex than papaya).\n\n3. Rinse thoroughly.\n\n4. Squeeze out as much water as possible using a clean tea towel or cheesecloth.\n\n5. Combine the chayote with the carrots, onion, garlic, ginger, bell pepper, raisins and peppercorns.\n\n6. Bring the vinegar to a boil.\n\n7. Stir in the sugar and 1½ tsp salt until dissolved.\n\n8. Allow the syrup to cool until warm.\n\n9. Pack the vegetables tightly into sterilised jars.\n\n10. Pour over the syrup until everything is submerged.\n\n11. Refrigerate for 3–5 days before serving (it’s even better after a week).",
+  },
 ];
 
 function formatAmt(amount) {
@@ -138,12 +157,22 @@ function formatAmt(amount) {
 function RegistrationScreen({ onComplete }) {
   const [name, setName] = useState("");
   const [country, setCountry] = useState("");
+  const [pin, setPin] = useState("");
+  const [confirmPin, setConfirmPin] = useState("");
   const [error, setError] = useState("");
 
   const handleSubmit = () => {
-    const registration = { name: name.trim(), country: country.trim() };
+    const registration = { name: name.trim(), country: country.trim(), pin: pin.trim() };
     if (!registration.name || !registration.country) {
       setError("Please enter your name and country.");
+      return;
+    }
+    if (!/^\d{4}$/.test(registration.pin)) {
+      setError("Your PIN must be exactly 4 digits.");
+      return;
+    }
+    if (registration.pin !== confirmPin.trim()) {
+      setError("The PINs do not match.");
       return;
     }
     try { window.localStorage.setItem(REGISTRATION_STORAGE_KEY, JSON.stringify(registration)); } catch {}
@@ -164,6 +193,14 @@ function RegistrationScreen({ onComplete }) {
           <label style={{ color: COLORS.muted, fontSize: 12, fontWeight: 600 }}>
             COUNTRY
             <input value={country} onChange={e => { setCountry(e.target.value); setError(""); }} onKeyDown={e => e.key === "Enter" && handleSubmit()} placeholder="e.g. United Kingdom" style={{ ...inp(), marginTop: 6 }} />
+          </label>
+          <label style={{ color: COLORS.muted, fontSize: 12, fontWeight: 600 }}>
+            CREATE A 4-DIGIT PIN
+            <input type="password" inputMode="numeric" maxLength={4} value={pin} onChange={e => { setPin(e.target.value.replace(/\D/g, "")); setError(""); }} placeholder="4 digits" style={{ ...inp({ letterSpacing: 5 }), marginTop: 6 }} />
+          </label>
+          <label style={{ color: COLORS.muted, fontSize: 12, fontWeight: 600 }}>
+            CONFIRM PIN
+            <input type="password" inputMode="numeric" maxLength={4} value={confirmPin} onChange={e => { setConfirmPin(e.target.value.replace(/\D/g, "")); setError(""); }} onKeyDown={e => e.key === "Enter" && handleSubmit()} placeholder="Repeat your PIN" style={{ ...inp({ letterSpacing: 5 }), marginTop: 6 }} />
           </label>
           {error && <p style={{ color: "#C05050", fontSize: 12, margin: 0 }}>{error}</p>}
           <p style={{ color: COLORS.accentLight, background: COLORS.tag, borderRadius: 8, padding: "10px 12px", fontSize: 12, lineHeight: 1.45, margin: 0 }}>ℹ️ All measurements in this recipe book follow UK standards.</p>
@@ -495,7 +532,7 @@ function CostingSection({ recipe, scaledIngredients }) {
 }
 
 // ── RecipeView ───────────────────────────────────────────────────────────────
-function RecipeView({ recipe, onClose, onDelete, onEdit, onFav, saving }) {
+function RecipeView({ recipe, onClose, onDelete, onEdit, onFav, saving, pin }) {
   const mainIng = recipe.ingredients.find(i => i.isMain) || recipe.ingredients[0];
   const [sliderValue, setSliderValue] = useState(mainIng?.amount || 1);
   // unitOverrides: { ingredientId: chosenUnit }
@@ -514,7 +551,7 @@ function RecipeView({ recipe, onClose, onDelete, onEdit, onFav, saving }) {
   };
 
   const handlePwdSubmit = () => {
-    if (pwdInput === "20165") {
+    if (pwdInput === pin) {
       setShowPwdModal(false);
       if (pwdAction === "edit") onEdit();
       if (pwdAction === "delete") onDelete(recipe.id);
@@ -731,7 +768,10 @@ export default function App() {
   useEffect(() => {
     try {
       const saved = window.localStorage.getItem(REGISTRATION_STORAGE_KEY);
-      if (saved) setRegistration(JSON.parse(saved));
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        if (parsed?.name && parsed?.country && /^\d{4}$/.test(parsed?.pin || "")) setRegistration(parsed);
+      }
     } catch {}
     setRegistrationChecked(true);
   }, []);
@@ -853,6 +893,17 @@ export default function App() {
 
   const favCount = recipes.filter(r => r.favourite).length;
 
+  const openRecipe = (recipe) => {
+    const entered = window.prompt("Enter your 4-digit PIN to open this recipe:");
+    if (entered === null) return;
+    if (entered.trim() !== registration.pin) {
+      window.alert("Incorrect PIN.");
+      return;
+    }
+    setSelected(recipe);
+    setView("recipe");
+  };
+
   if (!registrationChecked) return null;
   if (!registration) return <RegistrationScreen onComplete={setRegistration} />;
 
@@ -914,7 +965,7 @@ export default function App() {
             <div style={{ display: "grid", gap: 12 }}>
               {filtered.map(r => (
                 <RecipeCard key={r.id} recipe={r}
-                  onClick={r => { setSelected(r); setView("recipe"); }}
+                  onClick={openRecipe}
                   onFav={handleFav} />
               ))}
             </div>
@@ -927,6 +978,7 @@ export default function App() {
             onEdit={() => setView("edit")}
             onFav={handleFav}
             saving={saving}
+            pin={registration.pin}
           />
         ) : view === "add" ? (
           <RecipeForm title="Add New Recipe" onSave={handleAdd} onCancel={() => setView("list")} saving={saving} />
