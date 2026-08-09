@@ -177,6 +177,28 @@ const DEFAULT_RECIPES = [
     ],
     steps: "1. MIX THE EGGS: Add 4 whole eggs and 12 egg yolks to a mixing bowl. Mix slowly and gently to avoid creating too many bubbles.\n\n2. ADD THE MILK: Slowly add the condensed milk while whisking gently. Slowly add the evaporated milk and whisk until just combined.\n\n3. MAKE THE CARAMEL: Place the sugar in the centre of a pan over medium heat. Add the water around the sides of the pan. Do not stir until the sugar around the edges starts to brown. Gently mix the edges into the centre, then stir the middle once it begins to brown. Cook until evenly golden.\n\n4. FILL THE TRAYS: Divide the caramel among 5 small foil trays. Pour the flan mixture over the caramel. Cover each tray tightly with foil.\n\n5. STEAM: Bring about 1 inch of water to a gentle boil over medium heat. Arrange the covered trays in the steamer, cover, and steam for approximately 30 minutes. Check that the centre is firm.\n\n6. CHILL AND SERVE: Cool, then refrigerate until fully set. Run a knife around the edge and invert onto a plate to serve.",
   },
+  {
+    id: "9", name: "Instant Pot Whole Chicken and Gravy", category: "Instant Pot", favourite: false,
+    mainIngredient: "whole chicken", mainIngredientUnit: "kilo", baseAmount: 1.8, servings: 6,
+    ingredients: [
+      { id: "w1", name: "whole chicken", amount: 1.8, unit: "kilo", isMain: true },
+      { id: "w2", name: "low-sodium chicken broth", amount: 1, unit: "cup", isMain: false },
+      { id: "w3", name: "garlic cloves, peeled and lightly smashed", amount: 4, unit: "clove", isMain: false },
+      { id: "w4", name: "fine sea salt", amount: 2, unit: "tsp", isMain: false },
+      { id: "w5", name: "black pepper", amount: 0.25, unit: "tsp", isMain: false },
+      { id: "w6", name: "onion powder", amount: 1, unit: "tsp", isMain: false },
+      { id: "w7", name: "garlic powder", amount: 1, unit: "tsp", isMain: false },
+      { id: "w8", name: "paprika", amount: 0.5, unit: "tsp", isMain: false },
+      { id: "w9", name: "fresh rosemary, leaves stripped and minced", amount: 1, unit: "piece", isMain: false },
+      { id: "w10", name: "fresh thyme, leaves stripped and minced", amount: 1, unit: "piece", isMain: false },
+      { id: "w11", name: "unsalted butter, melted", amount: 8, unit: "tbsp", isMain: false },
+      { id: "w12", name: "lemon juice", amount: 1, unit: "tbsp", isMain: false },
+      { id: "w13", name: "lemon half (for cavity)", amount: 0.5, unit: "piece", isMain: false },
+      { id: "w14", name: "unsalted butter (for gravy)", amount: 3, unit: "tbsp", isMain: false },
+      { id: "w15", name: "all-purpose flour (for gravy)", amount: 3, unit: "tbsp", isMain: false },
+    ],
+    steps: "1. PREPARE: Remove the giblets. Pat the chicken dry inside and out. Place breast-side up and gently loosen the skin over the breast with the back of a spoon.\n\n2. MAKE THE BUTTER SAUCE: Combine the seasonings, minced rosemary and thyme, lemon juice, and 8 tbsp melted butter.\n\n3. SET UP THE INSTANT POT: Place the trivet in the pot and add 1 cup chicken broth. Put the chicken breast-side up on the trivet. Stuff the cavity with the smashed garlic and lemon half. Rub half the butter mixture under the skin and spread the rest over the chicken.\n\n4. PRESSURE COOK: Secure the lid and set the valve to Sealing. Cook on High Pressure for 6 minutes per 450 g of chicken (about 24 minutes for 1.8 kg). Allow a 15-minute natural release, then carefully release the remaining pressure.\n\n5. CRISP THE SKIN: Transfer the chicken to a foil-lined baking tray. Sprinkle with a little extra salt, pepper, and paprika if desired. Broil or air-fry at 250°C for about 5 minutes, until browned. Rest for 10 minutes before carving.\n\n6. MAKE THE GRAVY: Strain and skim the pot juices. Set the Instant Pot to Sauté and melt 3 tbsp butter. Whisk in 3 tbsp flour for 1 minute until golden. Gradually whisk in the drippings until simmering and thickened. Serve with the chicken.",
+  },
 ];
 
 function formatAmt(amount) {
@@ -434,6 +456,21 @@ const GLOBAL_PRICE_DEFAULTS = {
   "evaporated milk|can": "1.20",
   "white sugar|cup": "0.30",
   "water|cup": "0.01",
+  "whole chicken|kilo": "5.50",
+  "low-sodium chicken broth|cup": "0.20",
+  "garlic cloves, peeled and lightly smashed|clove": "0.05",
+  "fine sea salt|tsp": "0.01",
+  "black pepper|tsp": "0.075",
+  "onion powder|tsp": "0.03",
+  "garlic powder|tsp": "0.04",
+  "paprika|tsp": "0.04",
+  "fresh rosemary, leaves stripped and minced|piece": "0.25",
+  "fresh thyme, leaves stripped and minced|piece": "0.20",
+  "unsalted butter, melted|tbsp": "0.08",
+  "lemon juice|tbsp": "0.08",
+  "lemon half (for cavity)|piece": "0.25",
+  "unsalted butter (for gravy)|tbsp": "0.08",
+  "all-purpose flour (for gravy)|tbsp": "0.03",
 };
 
 const GLOBAL_PRICES_KEY = "global-ingredient-prices";
