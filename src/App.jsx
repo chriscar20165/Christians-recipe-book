@@ -188,15 +188,19 @@ function formatAmt(amount) {
 
 function formatMeasure(amount, unit) {
   const fractions = [
-    [1 / 8, "⅛"], [1 / 6, "⅙"], [1 / 4, "¼"], [1 / 3, "⅓"],
+    [1 / 6, "⅙"], [1 / 4, "¼"], [1 / 3, "⅓"],
     [1 / 2, "½"], [2 / 3, "⅔"], [3 / 4, "¾"], [1, "1"],
   ];
   if (unit === "cup") {
     const match = fractions.find(([value]) => Math.abs(amount - value) < 0.035);
     if (match) return `${match[1]} cup`;
     if (amount > 0 && amount < 0.25) {
-      const teaspoons = Math.max(0.5, Math.round(amount * 48 * 2) / 2);
-      return `${formatAmt(teaspoons)} tsp`;
+      const totalTeaspoons = amount * 48;
+      const tablespoons = Math.floor(totalTeaspoons / 3);
+      const teaspoons = Math.round((totalTeaspoons - tablespoons * 3) * 2) / 2;
+      if (tablespoons > 0 && teaspoons > 0) return `${tablespoons} tbsp + ${formatAmt(teaspoons)} tsp`;
+      if (tablespoons > 0) return `${tablespoons} tbsp`;
+      return `${formatAmt(Math.max(0.5, teaspoons))} tsp`;
     }
   }
   if (unit === "tbsp" && amount > 0 && amount < 1) {
