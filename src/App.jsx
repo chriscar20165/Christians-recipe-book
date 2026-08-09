@@ -186,6 +186,25 @@ function formatAmt(amount) {
   return rounded.toFixed(1);
 }
 
+function formatMeasure(amount, unit) {
+  const fractions = [
+    [1 / 8, "⅛"], [1 / 6, "⅙"], [1 / 4, "¼"], [1 / 3, "⅓"],
+    [1 / 2, "½"], [2 / 3, "⅔"], [3 / 4, "¾"], [1, "1"],
+  ];
+  if (unit === "cup") {
+    const match = fractions.find(([value]) => Math.abs(amount - value) < 0.035);
+    if (match) return `${match[1]} cup`;
+    if (amount > 0 && amount < 0.25) {
+      const teaspoons = Math.max(0.5, Math.round(amount * 48 * 2) / 2);
+      return `${formatAmt(teaspoons)} tsp`;
+    }
+  }
+  if (unit === "tbsp" && amount > 0 && amount < 1) {
+    return `${formatAmt(Math.max(0.5, Math.round(amount * 3 * 2) / 2))} tsp`;
+  }
+  return `${formatAmt(amount)} ${unit}`;
+}
+
 // ── API helpers ──────────────────────────────────────────────────────────────
 async function apiGet() {
   const controller = new AbortController();
@@ -681,6 +700,8 @@ function RecipeView({ recipe, onClose, onDelete, onEdit, onFav, saving }) {
         {scaledIngredients.map(ing => {
           const compatible = getCompatibleUnits(ing.unit);
           const hasOptions = compatible.length > 1;
+          const measureText = formatMeasure(ing.scaledAmount, ing.displayUnit);
+          const measureChanged = !measureText.endsWith(` ${ing.displayUnit}`);
           const ticked = !!ingChecked[ing.id];
           return (
             <div key={ing.id} onClick={() => setIngChecked(prev => ({ ...prev, [ing.id]: !prev[ing.id] }))}
@@ -707,18 +728,16 @@ function RecipeView({ recipe, onClose, onDelete, onEdit, onFav, saving }) {
               </div>
               <div style={{ display: "flex", alignItems: "center", gap: 8 }} onClick={e => e.stopPropagation()}>
                 <span style={{ color: ing.isMain ? COLORS.accentLight : COLORS.muted, fontWeight: 700, fontSize: 14 }}>
-                  {formatAmt(ing.scaledAmount)}
+                  {measureText}
                 </span>
-                {hasOptions ? (
+                {hasOptions && !measureChanged ? (
                   <select
                     value={unitOverrides[ing.id] || ing.unit}
                     onChange={e => setUnitOverrides(prev => ({ ...prev, [ing.id]: e.target.value }))}
                     style={{ background: COLORS.card, border: `1px solid ${COLORS.border}`, color: COLORS.muted, borderRadius: 6, padding: "3px 6px", fontSize: 12, cursor: "pointer" }}>
                     {compatible.map(u => <option key={u} value={u}>{u}</option>)}
                   </select>
-                ) : (
-                  <span style={{ color: COLORS.muted, fontSize: 13 }}>{ing.displayUnit}</span>
-                )}
+                ) : null}
               </div>
             </div>
           );
