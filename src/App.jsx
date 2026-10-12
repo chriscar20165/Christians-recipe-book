@@ -222,9 +222,9 @@ const DEFAULT_RECIPES = [
   },
   {
     id: "11", name: "Easy Chinese Beef and Onion Stir Fry", category: "Stir Fry", favourite: false,
-    mainIngredient: "beef steak", mainIngredientUnit: "g", baseAmount: 400, servings: 4,
+    mainIngredient: "beef steak", mainIngredientUnit: "kilo", baseAmount: 0.4, servings: 4,
     ingredients: [
-      { id: "b1", name: "beef steak, thinly sliced against the grain", amount: 400, unit: "g", isMain: true },
+      { id: "b1", name: "beef steak, thinly sliced against the grain", amount: 0.4, unit: "kilo", isMain: true },
       { id: "b2", name: "large onion, thinly sliced", amount: 1, unit: "piece", isMain: false },
       { id: "b3", name: "spring onions, cut into 2-inch pieces", amount: 4, unit: "piece", isMain: false },
       { id: "b4", name: "garlic, minced", amount: 3, unit: "clove", isMain: false },
@@ -530,6 +530,7 @@ const GLOBAL_PRICE_DEFAULTS = {
   "salt (ginger-scallion sauce)|tsp": "0.01",
   "avocado oil|tbsp": "0.08",
   "beef steak, thinly sliced against the grain|g": "0.012",
+  "beef steak, thinly sliced against the grain|kilo": "12.00",
   "large onion, thinly sliced|piece": "0.30",
   "spring onions, cut into 2-inch pieces|piece": "0.20",
   "garlic, minced|clove": "0.05",
@@ -755,8 +756,8 @@ function RecipeView({ recipe, onClose, onDelete, onEdit, onFav, saving }) {
   const ratio = sliderValue / (mainIng?.amount || 1);
 
   const maxSlider = (mainIng?.amount || 1) * 5;
-  const minSlider = recipe.id === "8" ? 5 : recipe.id === "2" ? 0.5 : Math.max(0.1, (mainIng?.amount || 1) * 0.25);
-  const step      = recipe.id === "8" ? 1 : 0.1;
+  const minSlider = recipe.id === "8" ? 5 : recipe.id === "11" ? 0.4 : recipe.id === "2" ? 0.5 : Math.max(0.1, (mainIng?.amount || 1) * 0.25);
+  const step      = recipe.id === "8" ? 1 : recipe.id === "11" ? 0.05 : 0.1;
 
   const scaledIngredients = recipe.ingredients.map(ing => {
     const rawAmount = ing.isMain ? sliderValue : ing.amount * ratio;
